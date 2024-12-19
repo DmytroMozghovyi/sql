@@ -32,7 +32,9 @@ WHERE product_id = 4
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
 filtered by vendor IDs between 8 and 10 (inclusive) using either:
-	1.  two conditions using AND -- DMYTRO: we can't use AND, jnly OR or IN
+	1.  two conditions using AND -- DMYTRO: we can't use AND, only OR or IN
+	-- 2024-12-17:!!! Ernani's comment: "Session 2: 2 - WHERE: Q2 - option 1: Mising AND condition." 
+					-- I don't understand how to use AND while vendor_id is unique value. When I use AND I received 0 rows in return.
 	2.  one condition using BETWEEN
 */
 -- option 1
@@ -109,13 +111,12 @@ sticker to everyone who has ever spent more than $2000 at the market. Write a qu
 of customers for them to give stickers to, sorted by last name, then first name. 
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
-SELECT customer_last_name || ' ' || customer_first_name as customer
-	   sum(quantity * cost_to_customer_per_qty) as expenses -- As the task is to "generate a list of customers" we might not show expenses
+SELECT customer_last_name, customer_first_name
 FROM customer_purchases cp
 LEFT JOIN customer c
 	ON cp.customer_id = c.customer_id
 GROUP BY customer_last_name, customer_first_name
-HAVING expenses >= 2000
+HAVING sum(quantity * cost_to_customer_per_qty) >= 2000
 ORDER BY customer_last_name, customer_first_name
 
 
@@ -130,14 +131,14 @@ When inserting the new vendor, you need to appropriately align the columns to be
 -> To insert the new row use VALUES, specifying the value you want for each column:
 VALUES(col1,col2,col3,col4,col5) 
 */
-DROP TABLE IF EXISTS new_vendor;
+DROP TABLE IF EXISTS temp.new_vendor;
 
 CREATE TEMP TABLE new_vendor as
 
 SELECT *
 FROM vendor;
 
-INSERT INTO new_vendor (vendor_id, vendor_name, vendor_type, vendor_owner_first_name, vendor_owner_last_name) 
+INSERT INTO new_vendor 
 VALUES (10, 'Thomass Superfood Store', 'Fresh Focused', 'Thomas', 'Rosenthal');
 
 
