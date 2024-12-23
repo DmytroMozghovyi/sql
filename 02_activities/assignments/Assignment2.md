@@ -51,10 +51,12 @@ We want to create employee shifts, splitting up the day into morning and evening
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
 
-**HINT:** search type 1 vs type 2 slowly changing dimensions. 
+**HINT:** search type 1 vs type 2 slowly changing dimensions.
 
 ```
-Your answer...
+With the Type 1 Slowly Changing Dimensions (Overwriting Architecture) CUSTOMER_ADDRESS table keeps only the latest customer address. 
+Any updates to the address overwrite the existing record.
+With the Type 1 Slowly Changing Dimensions (Retaining Changes Architecture) CUSTOMER_ADDRESS table maintains history of all address changes. In that case table stores multiple records for each customer, usually with a Start and End Date to track validity.
 ```
 
 ***
